@@ -1,5 +1,6 @@
 module Api
-  class TodoListsController < ApplicationController
+  class TodoListsController < BaseController
+
     # GET /api/todolists
     def index
       @todo_lists = TodoList.all
