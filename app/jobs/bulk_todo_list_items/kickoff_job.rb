@@ -13,7 +13,7 @@ module BulkTodoListItems
       ids = resolve_ids(op, item_ids)
 
       op.update!(total_count: ids.length, processed_count: 0)
-      op.broadcast!
+      # No manual broadcast needed, handled by after_update_commit
 
       ids.each_slice(BATCH_SIZE) do |slice|
         BulkTodoListItems::BatchJob.perform_later(op_id: op.id, item_ids: slice)
@@ -22,12 +22,9 @@ module BulkTodoListItems
       # No records → finish immediately
       if ids.empty?
         op.update!(state: "finished", finished_at: Time.current)
-        op.broadcast!
       end
     rescue => e
       op&.update!(state: "failed", error_message: e.message, finished_at: Time.current)
-      op&.broadcast!
-
       raise
     end
 

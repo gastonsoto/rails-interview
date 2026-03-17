@@ -1,5 +1,4 @@
-<%# locals: todo_list:, item: %>
-<li class="flex grid-cols-[26px_26px_1fr_34px] gap-[10px] items-center px-[10px] py-[10px] rounded-xl bg-white/55 border border-black/[0.06] group justify-between <%= "opacity-75" if item.status == "closed" %>">
+<li id="todo_list_item_<%= item.id %>" class="grid grid-cols-[26px_1fr_34px] gap-[10px] items-center px-[10px] py-[10px] rounded-xl bg-white/55 border border-black/[0.06] group <%= "opacity-75" if item.status == "closed" %>">
   <label class="grid place-items-center w-[26px] h-[26px] cursor-pointer">
     <input
       type="checkbox"

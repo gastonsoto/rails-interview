@@ -7,6 +7,9 @@ class BulkOperation < ApplicationRecord
   validates :action, inclusion: { in: ACTIONS }
   validates :state, inclusion: { in: STATES }
 
+  after_create_commit :broadcast!
+  after_update_commit :broadcast!
+
   def progress_percent
     return 0 if total_count.to_i <= 0
     ((processed_count.to_f / total_count.to_f) * 100).clamp(0, 100).round

@@ -1,7 +1,14 @@
 <%# locals: todo_list: %>
 <section class="bg-white/70 border border-black/[0.08] rounded-[14px] shadow-xl shadow-black/[0.08] p-[14px] backdrop-blur-[10px] todo-list" data-todo-list-id="<%= todo_list.id %>">
   <%= turbo_stream_from "bulk_operations_todo_list_#{todo_list.id}" %>
-  <div id="bulk_operation_todo_list_<%= todo_list.id %>"></div>
+  <div id="bulk_operation_todo_list_<%= todo_list.id %>">
+    <%# Show active ops, OR finished ones from the last 10 seconds %>
+    <% active_op = todo_list.bulk_operations.where(state: ["queued", "running"]).last %>
+    <% active_op ||= todo_list.bulk_operations.where(state: "finished").where("finished_at > ?", 10.seconds.ago).last %>
+    <% if active_op %>
+      <%= render partial: "todo_lists/bulk_operation", locals: { op: active_op } %>
+    <% end %>
+  </div>
 
   <div class="flex items-center justify-between gap-[10px] my-3">
     <select class="w-full border border-black/[0.08] bg-white/65 rounded-xl px-3 py-2.5 outline-none font-semibold focus:border-soft-blue/45 focus:ring-4 focus:ring-soft-blue/18"
@@ -23,7 +30,7 @@
     />
   </div>
 
-  <ul class="list-none m-0 p-0 grid gap-2">
+  <ul id="todo_list_items_<%= todo_list.id %>" class="list-none m-0 p-0 grid gap-2">
     <% todo_list.todo_list_items.order(:created_at).each do |item| %>
       <%= render partial: "todo_lists/todo_list_item", locals: { todo_list: todo_list, item: item } %>
     <% end %>

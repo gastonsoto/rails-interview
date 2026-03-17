@@ -1,5 +1,6 @@
 class TodoList < ApplicationRecord
   has_many :todo_list_items, dependent: :destroy
+  has_many :bulk_operations, dependent: :destroy
 
   after_commit :broadcast_lists
 
