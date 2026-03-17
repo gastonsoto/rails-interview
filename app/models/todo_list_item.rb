@@ -10,7 +10,8 @@ class TodoListItem < ApplicationRecord
   private
 
   def broadcast_create
-    Turbo::StreamsChannel.broadcast_append_to(
+    Turbo::StreamsChannel.broadcast_prepend_to(
+      todo_list.user,
       "todo_lists",
       target: "todo_list_items_#{todo_list_id}",
       partial: "todo_lists/todo_list_item",
@@ -20,6 +21,7 @@ class TodoListItem < ApplicationRecord
 
   def broadcast_update
     Turbo::StreamsChannel.broadcast_replace_to(
+      todo_list.user,
       "todo_lists",
       target: "todo_list_item_#{id}",
       partial: "todo_lists/todo_list_item",
@@ -29,6 +31,7 @@ class TodoListItem < ApplicationRecord
 
   def broadcast_destroy
      Turbo::StreamsChannel.broadcast_remove_to(
+      todo_list.user,
       "todo_lists",
       target: "todo_list_item_#{id}"
     )

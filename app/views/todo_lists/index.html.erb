@@ -7,6 +7,6 @@
     <%= link_to 'Add Todo List', new_todo_list_path, class: "inline-flex items-center justify-center px-4 py-2.5 rounded-xl border border-[#ff9b4a]/30 bg-white/70 text-[#1e1e1e] font-semibold no-underline shadow-lg shadow-[#ff9b4a]/10 transition-all hover:bg-white/90" %>
   </header>
 
-  <%= turbo_stream_from "todo_lists" %>
+  <%= turbo_stream_from current_user, "todo_lists" %>
   <%= render partial: "todo_lists/todo_lists", locals: { todo_lists: @todo_lists } %>
 </div>

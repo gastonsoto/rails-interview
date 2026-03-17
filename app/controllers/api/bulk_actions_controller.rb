@@ -2,7 +2,7 @@ module Api
   class BulkActionsController < BaseController
     # POST /api/todolists/:todo_list_id/bulk_actions
     def create
-      todo_list = TodoList.find(params[:todo_list_id])
+      todo_list = current_user.todo_lists.find(params[:todo_list_id])
 
       action = params.require(:action_name)
       item_ids = params[:item_ids]
@@ -30,4 +30,3 @@ module Api
     end
   end
 end
-

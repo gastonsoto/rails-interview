@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   unless Rails.env.test?
     begin
       require "sidekiq/web"

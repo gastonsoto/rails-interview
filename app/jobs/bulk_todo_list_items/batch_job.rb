@@ -13,13 +13,14 @@ module BulkTodoListItems
       when "delete_all"
         scope.delete_all
         item_ids.each do |id|
-          Turbo::StreamsChannel.broadcast_remove_to("todo_lists", target: "todo_list_item_#{id}")
+          Turbo::StreamsChannel.broadcast_remove_to(op.todo_list.user, "todo_lists", target: "todo_list_item_#{id}")
         end
       when "mark_all_done"
         scope.update_all(status: TodoListItem.statuses.fetch("closed"), updated_at: Time.current)
         items = TodoListItem.where(id: item_ids).includes(:todo_list)
         items.each do |item|
           Turbo::StreamsChannel.broadcast_replace_to(
+            item.todo_list.user,
             "todo_lists",
             target: "todo_list_item_#{item.id}",
             partial: "todo_lists/todo_list_item",
