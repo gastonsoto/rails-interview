@@ -27,6 +27,7 @@ module BulkTodoListItems
     rescue => e
       op&.update!(state: "failed", error_message: e.message, finished_at: Time.current)
       op&.broadcast!
+
       raise
     end
 
@@ -34,7 +35,7 @@ module BulkTodoListItems
 
     def resolve_ids(op, item_ids)
       scope = TodoListItem.where(todo_list_id: op.todo_list_id)
-
+      case op.action
       when "delete_all", "mark_all_done"
         scope.where(status: :active).pluck(:id)
       else

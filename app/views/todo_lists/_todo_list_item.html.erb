@@ -1,31 +1,19 @@
 <%# locals: todo_list:, item: %>
-<li class="item <%= "item--closed" if item.status == "closed" %>">
-  <label class="item__checkbox">
+<li class="flex grid-cols-[26px_26px_1fr_34px] gap-[10px] items-center px-[10px] py-[10px] rounded-xl bg-white/55 border border-black/[0.06] group justify-between <%= "opacity-75" if item.status == "closed" %>">
+  <label class="grid place-items-center w-[26px] h-[26px] cursor-pointer">
     <input
       type="checkbox"
-      data-item-select
-      data-item-id="<%= item.id %>"
-      data-todo-list-id="<%= todo_list.id %>"
-      data-action="change->todo-lists#toggleSelected"
-      aria-label="Select item"
-    />
-    <span class="item__checkmark"></span>
-  </label>
-
-  <label class="item__checkbox">
-    <input
-      type="checkbox"
+      class="w-[18px] h-[18px] accent-soft-blue cursor-pointer"
       <%= "checked" if item.status == "closed" %>
       data-item-id="<%= item.id %>"
       data-todo-list-id="<%= todo_list.id %>"
       data-action="change->todo-lists#toggleItem"
       aria-label="Toggle item"
     />
-    <span class="item__checkmark"></span>
   </label>
 
   <input
-    class="item__input"
+    class="w-full border-0 bg-transparent px-[2px] py-[6px] outline-none text-sm focus:ring-4 focus:ring-soft-pink/15 focus:rounded-lg <%= item.status == "closed" ? "line-through text-gray-400" : "text-[#1e1e1e]" %>"
     value="<%= item.description %>"
     data-item-id="<%= item.id %>"
     data-todo-list-id="<%= todo_list.id %>"
@@ -35,7 +23,7 @@
 
   <button
     type="button"
-    class="icon-btn item__trash"
+    class="w-[34px] h-[34px] rounded-xl border border-black/[0.06] bg-white/65 grid place-items-center text-black/70 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
     title="Remove"
     aria-label="Remove"
     data-item-delete

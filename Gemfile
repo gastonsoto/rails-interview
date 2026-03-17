@@ -24,6 +24,7 @@ gem "stimulus-rails"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
+gem "tailwindcss-rails"
 
 # Background jobs / bulk actions
 gem "sidekiq"
