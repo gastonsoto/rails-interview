@@ -1,0 +1,23 @@
+<div class="page page--soft">
+  <header class="page__header">
+    <div>
+      <h1 class="title">New Todo List</h1>
+      <p class="subtitle">Give it a name and start adding items.</p>
+    </div>
+    <%= link_to "Back", todo_lists_path, class: "btn" %>
+  </header>
+
+  <div class="card">
+    <%= form_with model: @todo_list, url: todo_lists_path do |f| %>
+      <div style="display:grid; gap:10px;">
+        <%= f.label :name, "List name", style: "font-weight:700;" %>
+        <%= f.text_field :name, required: true, class: "todo-list__name", autofocus: true %>
+        <div style="display:flex; gap:10px; justify-content:flex-end;">
+          <%= link_to "Cancel", todo_lists_path, class: "btn" %>
+          <%= f.submit "Create", class: "btn btn--primary" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+

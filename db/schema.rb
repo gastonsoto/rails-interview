@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_03_16_000000) do
+ActiveRecord::Schema[7.0].define(version: 2026_03_17_000000) do
+  create_table "bulk_operations", force: :cascade do |t|
+    t.integer "todo_list_id", null: false
+    t.string "action", null: false
+    t.string "state", default: "queued", null: false
+    t.integer "total_count", default: 0, null: false
+    t.integer "processed_count", default: 0, null: false
+    t.text "error_message"
+    t.datetime "started_at"
+    t.datetime "finished_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["todo_list_id"], name: "index_bulk_operations_on_todo_list_id"
+  end
+
   create_table "todo_list_items", force: :cascade do |t|
     t.integer "todo_list_id", null: false
     t.text "description"
@@ -24,5 +38,6 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_16_000000) do
     t.string "name", null: false
   end
 
+  add_foreign_key "bulk_operations", "todo_lists"
   add_foreign_key "todo_list_items", "todo_lists"
 end

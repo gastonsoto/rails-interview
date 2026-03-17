@@ -1,0 +1,26 @@
+<%# locals: op: %>
+<div class="bulk-progress <%= "bulk-progress--done" if op.finished? %> <%= "bulk-progress--failed" if op.failed? %>"
+     data-controller="bulk-progress"
+     data-bulk-progress-finished-value="<%= op.finished? %>"
+     data-bulk-progress-mark-done-value="<%= op.mark_done_action? %>">
+  <div class="bulk-progress__row">
+    <div class="bulk-progress__label">
+      <strong>Bulk action</strong>
+      <span class="bulk-progress__meta">
+        <%= op.action.tr("_", " ") %> — <%= op.processed_count %>/<%= op.total_count %>
+      </span>
+    </div>
+    <div class="bulk-progress__state">
+      <%= op.state %>
+    </div>
+  </div>
+
+  <div class="bulk-progress__bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<%= op.progress_percent %>">
+    <div class="bulk-progress__fill" style="width: <%= op.progress_percent %>%"></div>
+  </div>
+
+  <% if op.failed? %>
+    <div class="bulk-progress__error"><%= op.error_message %></div>
+  <% end %>
+</div>
+
