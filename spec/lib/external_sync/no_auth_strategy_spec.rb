@@ -15,14 +15,14 @@ RSpec.describe ExternalSync::NoAuthStrategy do
   end
 
   describe '#create_list' do
-    it 'posts a new list' do
-      params = { name: "New List", items: [] }
+    it 'posts a new list with source_id' do
+      params = { source_id: "5", name: "New List", items: [] }
       stub_request(:post, "#{base_url}/todolists")
         .with(body: params.to_json)
-        .to_return(status: 201, body: { id: "2", name: "New List", items: [] }.to_json, headers: { 'Content-Type' => 'application/json' })
+        .to_return(status: 201, body: { id: "2", source_id: "5", name: "New List", items: [] }.to_json, headers: { 'Content-Type' => 'application/json' })
 
       result = strategy.create_list(params)
-      expect(result["id"]).to eq("2")
+      expect(result["source_id"]).to eq("5")
     end
   end
 

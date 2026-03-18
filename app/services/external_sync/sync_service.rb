@@ -76,8 +76,8 @@ module ExternalSync
           if list.external_id.present?
             @strategy.update_list(list.external_id, { name: list.name })
           else
-            items_params = list.todo_list_items.map { |i| { description: i.description, completed: i.closed? } }
-            result = @strategy.create_list({ name: list.name, items: items_params })
+            items_params = list.todo_list_items.map { |i| { source_id: i.id.to_s, description: i.description, completed: i.closed? } }
+            result = @strategy.create_list({ source_id: list.id.to_s, name: list.name, items: items_params })
             list.update_columns(external_id: result["id"].to_s)
           end
           list.update_column(:last_synced_at, Time.current)

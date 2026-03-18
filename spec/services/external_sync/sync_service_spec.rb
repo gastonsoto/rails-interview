@@ -64,10 +64,14 @@ RSpec.describe ExternalSync::SyncService do
     context 'pushing to remote' do
       it 'creates remote record for new local list' do
         list = user.todo_lists.create!(name: "Local New", provider: "no_auth")
+        item = list.todo_list_items.create!(description: "New Item", status: :active)
         
         allow(strategy).to receive(:fetch_all).and_return([])
-        expect(strategy).to receive(:create_list).with(hash_including(name: "Local New"))
-          .and_return({ "id" => "ext_new", "items" => [] })
+        expect(strategy).to receive(:create_list).with(hash_including(
+          source_id: list.id.to_s,
+          name: "Local New",
+          items: array_including(hash_including(source_id: item.id.to_s, description: "New Item", completed: false))
+        )).and_return({ "id" => "ext_new", "items" => [] })
 
         service.sync!
         expect(list.reload.external_id).to eq("ext_new")
