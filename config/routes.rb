@@ -1,13 +1,5 @@
 Rails.application.routes.draw do
   devise_for :users
-  unless Rails.env.test?
-    begin
-      require "sidekiq/web"
-      mount Sidekiq::Web => "/sidekiq"
-    rescue LoadError
-      # Sidekiq Web is optional in some environments
-    end
-  end
 
   namespace :api do
     resources :todo_lists, only: %i[index update], path: :todolists do
@@ -17,4 +9,6 @@ Rails.application.routes.draw do
   end
 
   resources :todo_lists, only: %i[index new create], path: :todolists
+
+  root "landing#index"
 end

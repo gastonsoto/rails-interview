@@ -15,7 +15,7 @@
       radial-gradient(900px 500px at 90% 15%, rgba(75, 146, 255, 0.18), transparent 60%),
       radial-gradient(900px 600px at 60% 90%, rgba(255, 155, 74, 0.20), transparent 60%),
       #fff6b7;
-    height: 100vh;
+    min-height: 100vh;
   }
 }
 
