@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_03_17_203014) do
+ActiveRecord::Schema[7.0].define(version: 2026_03_18_214529) do
   create_table "bulk_operations", force: :cascade do |t|
     t.integer "todo_list_id", null: false
     t.string "action", null: false
@@ -31,12 +31,21 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_17_203014) do
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "external_id"
+    t.index ["external_id"], name: "index_todo_list_items_on_external_id"
     t.index ["todo_list_id"], name: "index_todo_list_items_on_todo_list_id"
   end
 
   create_table "todo_lists", force: :cascade do |t|
     t.string "name", null: false
     t.integer "user_id", null: false
+    t.string "external_id"
+    t.string "provider"
+    t.datetime "last_synced_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["external_id"], name: "index_todo_lists_on_external_id"
+    t.index ["provider"], name: "index_todo_lists_on_provider"
     t.index ["user_id"], name: "index_todo_lists_on_user_id"
   end
 
