@@ -26,6 +26,7 @@ gem "stimulus-rails"
 gem "jbuilder"
 gem "tailwindcss-rails"
 gem "devise"
+gem "faraday"
 
 # Background jobs / bulk actions
 gem "sidekiq"
@@ -76,4 +77,5 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+  gem "webmock"
 end
