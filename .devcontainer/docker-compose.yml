@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.9"
 
 services:
   app:
@@ -6,17 +6,14 @@ services:
       context: ..
       dockerfile: .devcontainer/Dockerfile
     volumes:
-      - ..:/workspaces/app:cached
-    working_dir: /workspaces/app
-    command: bash -c "bundle install && rails db:prepare && rails server -b 0.0.0.0"
+      - ..:/workspaces/rails-interview
+    command: sleep infinity
+    ports:
+      - "3000:3000"
     depends_on:
       - redis
-    environment:
-      - REDIS_URL=redis://redis:6379/1
-      - RAILS_ENV=development
 
   redis:
-    image: redis:alpine
-    restart: always
+    image: redis:7
     ports:
       - "6379:6379"
